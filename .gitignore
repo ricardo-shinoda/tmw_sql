@@ -1,4 +1,5 @@
 # Banco de dados SQLite
+data/
 *.db
 
 # Arquivos de dados CSV (geralmente muito grandes)
