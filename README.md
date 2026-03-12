@@ -1,72 +1,25 @@
-🎞️ Sakila DVD Rental Analytics
-A comprehensive SQL study project using the Sakila Sample Database to analyze movie rental patterns, customer behavior, and business revenue.
+# 🎞️ Sakila DVD Rental: Relational Database Project
 
-📌 Project Overview
-The Sakila database is a normalized model of a DVD rental store, featuring complex relationships between actors, films, inventory, and payments. This project serves as a sandbox for mastering:
+A comprehensive SQL project utilizing the **Sakila Sample Database** to analyze a movie rental business. This project demonstrates advanced PostgreSQL techniques, including complex multi-way joins, data aggregation, and database administrative management.
 
-Multi-way JOINS: Connecting 5+ tables to track a rental from customer to film category.
+---
 
-Data Aggregation: Using GROUP BY and HAVING to find high-value customers and popular genres.
+## 🏗️ Project Architecture
+The Sakila database is a "Golden Standard" in SQL education, representing a normalized DVD rental store. It contains 15 tables with relationships covering:
+* **Business Operations:** Rentals, Payments, and Inventory.
+* **Content Catalog:** Films, Categories, Languages, and Actors.
+* **Customer Data:** Emails, Addresses, and Store assignments.
 
-Schema Design: Understanding Foreign Keys, Constraints, and ENUM types (MPAA Ratings).
 
-🏗️ Database Architecture
-The database consists of 15 core tables and several views. Key relationships include:
 
-Many-to-Many: actor ↔ film (via film_actor).
+## 🚀 Getting Started
 
-One-to-Many: customer ↔ rental ↔ payment.
+### 1. Prerequisites
+* **Environment:** macOS (M1/M2/Intel)
+* **Engine:** PostgreSQL 14+ (installed via Homebrew)
+* **Interface:** VSCode + SQLTools Extension
 
-Geographic Hierarchy: address ↔ city ↔ country.
-
-🚀 Getting Started
-Prerequisites
-PostgreSQL 14+
-
-VSCode with the SQLTools extension.
-
-Installation
-Create the Database:
-
-SQL
+### 2. Database Setup
+First, create a fresh database to host the schema:
+```sql
 CREATE DATABASE sakila;
-Run the Schema:
-Execute postgres-sakila-schema.sql to build the tables.
-
-Import Data:
-Use the terminal to load the data file:
-
-Bash
-psql -d sakila -f postgres-sakila-insert-data.sql
-📊 Sample Queries
-1. Top 5 Most Popular Movie Categories
-Find which genres are rented the most to optimize inventory.
-
-SQL
-SELECT c.name AS category, COUNT(r.rental_id) AS total_rentals
-FROM category c
-JOIN film_category fc ON c.category_id = fc.category_id
-JOIN film f ON fc.film_id = f.film_id
-JOIN inventory i ON f.film_id = i.film_id
-JOIN rental r ON i.inventory_id = r.inventory_id
-GROUP BY c.name
-ORDER BY total_rentals DESC
-LIMIT 5;
-2. High-Value Customer Report
-Identify customers who have spent more than $150 total.
-
-SQL
-SELECT first_name, last_name, SUM(amount) as total_spent
-FROM customer
-JOIN payment USING (customer_id)
-GROUP BY customer_id, first_name, last_name
-HAVING SUM(amount) > 150
-ORDER BY total_spent DESC;
-🛠️ Lessons Learned
-Type Casting: Handling data mismatches (like T0 vs TO errors!) and converting ENUM types.
-
-Role Management: Understanding the importance of OWNER TO permissions in PostgreSQL environments.
-
-ETL Workflow: The transition from raw CSV (NBA data) to structured SQL scripts (Sakila).
-
-Developed by Ricardo as part of the SQL Mastery Journey.
