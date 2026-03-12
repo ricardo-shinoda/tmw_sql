@@ -1,45 +1,72 @@
-# SQL Study Project - Teo Me Why (PostgreSQL Edition)
+🎞️ Sakila DVD Rental Analytics
+A comprehensive SQL study project using the Sakila Sample Database to analyze movie rental patterns, customer behavior, and business revenue.
 
-This repository contains my SQL learning journey based on the Teo Calvo course. While the original course uses SQLite, I have adapted all exercises to **PostgreSQL** to match the technology stack that I have been used.
+📌 Project Overview
+The Sakila database is a normalized model of a DVD rental store, featuring complex relationships between actors, films, inventory, and payments. This project serves as a sandbox for mastering:
 
-## 📁 Project Structure
+Multi-way JOINS: Connecting 5+ tables to track a rental from customer to film category.
 
-- `/data`: Raw CSV data files (ignored by Git due to file size).
-- `/scripts`: SQL scripts for table creation, data ingestion, and analytical queries.
+Data Aggregation: Using GROUP BY and HAVING to find high-value customers and popular genres.
 
-## 🛠️ Tech Stack
+Schema Design: Understanding Foreign Keys, Constraints, and ENUM types (MPAA Ratings).
 
-- **Database:** PostgreSQL
-- **Tooling:** VS Code + SQLTools Extension
-- **Data Ingestion:** `psql` CLI utility (macOS)
+🏗️ Database Architecture
+The database consists of 15 core tables and several views. Key relationships include:
 
-## 🚀 Setup & Ingestion
+Many-to-Many: actor ↔ film (via film_actor).
 
-#### 1. Create the Database
-In your SQL client or terminal:
-```sql
-CREATE DATABASE tmw_sql_study;
+One-to-Many: customer ↔ rental ↔ payment.
 
-#### 2. Create Tables
-Execute the creation scripts located in /scripts to set up the schema.
+Geographic Hierarchy: address ↔ city ↔ country.
 
-3. Bulk Ingest Data
-To populate the database with the provided datasets, run the following commands in your terminal from the project root:
+🚀 Getting Started
+Prerequisites
+PostgreSQL 14+
+
+VSCode with the SQLTools extension.
+
+Installation
+Create the Database:
+
+SQL
+CREATE DATABASE sakila;
+Run the Schema:
+Execute postgres-sakila-schema.sql to build the tables.
+
+Import Data:
+Use the terminal to load the data file:
 
 Bash
-# Ingesting Customers
-psql -d tmw_sql_study -c "\copy clientes FROM 'data/clientes.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';');"
+psql -d sakila -f postgres-sakila-insert-data.sql
+📊 Sample Queries
+1. Top 5 Most Popular Movie Categories
+Find which genres are rented the most to optimize inventory.
 
-# Ingesting Products
-psql -d tmw_sql_study -c "\copy produtos FROM 'data/produtos.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';');"
+SQL
+SELECT c.name AS category, COUNT(r.rental_id) AS total_rentals
+FROM category c
+JOIN film_category fc ON c.category_id = fc.category_id
+JOIN film f ON fc.film_id = f.film_id
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+GROUP BY c.name
+ORDER BY total_rentals DESC
+LIMIT 5;
+2. High-Value Customer Report
+Identify customers who have spent more than $150 total.
 
-# Ingesting Transactions
-psql -d tmw_sql_study -c "\copy transacoes FROM 'data/transacoes.csv' WITH (FORMAT csv, HEADER true, DELIMITER ';');"
-📊 Available Tables
-clientes: Customer profiles and loyalty points.
+SQL
+SELECT first_name, last_name, SUM(amount) as total_spent
+FROM customer
+JOIN payment USING (customer_id)
+GROUP BY customer_id, first_name, last_name
+HAVING SUM(amount) > 150
+ORDER BY total_spent DESC;
+🛠️ Lessons Learned
+Type Casting: Handling data mismatches (like T0 vs TO errors!) and converting ENUM types.
 
-produtos: Full product catalog.
+Role Management: Understanding the importance of OWNER TO permissions in PostgreSQL environments.
 
-transacoes: Sales records and source systems.
+ETL Workflow: The transition from raw CSV (NBA data) to structured SQL scripts (Sakila).
 
-transacao_produto: Junction table linking products to specific transactions.
+Developed by Ricardo as part of the SQL Mastery Journey.
