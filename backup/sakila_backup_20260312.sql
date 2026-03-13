@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict aM9X2g051oTtgbZO04K4XQf0aYi8jcrYgpJFc3qhJtYUgjPd1sSEQfATbf5KrUO
+\restrict LwYhRQzS4hnX7bpuNWQ0cdYdKa0fGQzpr2R2EsdRNX463UBJvxmbRXlgHO96giI
 
 -- Dumped from database version 14.20 (Homebrew)
 -- Dumped by pg_dump version 14.20 (Homebrew)
@@ -48346,5 +48346,5 @@ ALTER TABLE ONLY public.store
 -- PostgreSQL database dump complete
 --
 
-\unrestrict aM9X2g051oTtgbZO04K4XQf0aYi8jcrYgpJFc3qhJtYUgjPd1sSEQfATbf5KrUO
+\unrestrict LwYhRQzS4hnX7bpuNWQ0cdYdKa0fGQzpr2R2EsdRNX463UBJvxmbRXlgHO96giI
 
