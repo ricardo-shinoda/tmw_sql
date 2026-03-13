@@ -87,3 +87,14 @@ Data Integrity: Implemented FOREIGN KEY constraints to ensure relational consist
 ETL Optimization: Managed large-scale data imports using the psql command-line interface instead of the GUI to prevent memory crashes.
 
 Project maintained by Ricardo — SQL Data Engineering Portfolio.
+
+IMPORTANT - to rebuild the DB
+
+go to sakila-project folder and run the file schema.sql
+
+URl From the database: https://github.com/jOOQ/sakila/tree/main/postgres-sakila-db
+Steps:
+
+* download file: postgres-sakila-insert-data.sql
+
+On terminal, from the Download folder run: psql -h localhost -U ricardo -d sakila -f postgres-sakila-insert-data.sql
