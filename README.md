@@ -98,9 +98,12 @@ Steps:
 
 On terminal, from the Download folder run: psql -h localhost -U ricardo -d sakila -f postgres-sakila-insert-data.sql
 
--- Comando de restauração do banco caso estiver tudo deletado:
--- on terminal: psql -h localhost -U ricardo -d sakila -f backup/sakila_backup_20260312.sql
+-- Database restoration command in case everything is deleted:
+-- on terminal: 
+psql -h localhost -U ricardo -d sakila -f backup/sakila_backup_20260312.sql
 
 
--- Qaundo terminar uma longa sessão de estudo rodar para criar um arquivo backup.
+-- Run this when finishing a long study session to create a backup file:
+-- on terminal: 
+pg_dump -h localhost -U ricardo sakila > backup/sakila_backup_$(date +%Y%m%d).sql
 pg_dump -h localhost -U ricardo sakila > backup/sakila_backup_$(date +%Y%m%d_%H%M).sql
